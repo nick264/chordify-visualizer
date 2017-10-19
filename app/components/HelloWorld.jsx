@@ -10,6 +10,7 @@ const dependenciesArray = [
   'webpack - for bundling all the javascript',
   'jsx-loader - allows webpack to load jsx files',
   'react-router-dom - handles routing!',
+  'react-redux'
 ];
 
 const componentsMade = [
