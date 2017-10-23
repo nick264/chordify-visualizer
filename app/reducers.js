@@ -1,25 +1,22 @@
-/* reducer(s) */
+/* reducers */
 
-const combineReducers = require('redux').combineReducers;
 const { UPVOTE, DOWNVOTE } = require('./actions');
 
 function votes(state = [], action) {
   switch (action.type) {
     case UPVOTE: 
-      return [
-        state.concat({ voteScore: state.voteScore++ })
-      ];
+      return Object.assign({}, state, {
+        voteScore: ( state.voteScore ) ? state.voteScore + 1 : 1,
+        voteCount: ( state.voteCount ) ? state.voteCount + 1 : 1
+      });
     case DOWNVOTE:
-      return [
-        state.concat({ voteScore: state.voteScore-- })
-      ];
+       return Object.assign({}, state, {
+        voteScore: ( state.voteScore ) ? state.voteScore - 1 : -1,
+        voteCount: ( state.voteCount ) ? state.voteCount + 1 : 1
+      });
     default:
       return state;
   }
 }
 
-const VoteButtons = combineReducers({
-  votes
-})
-
-module.exports = VoteButtons
+module.exports = votes

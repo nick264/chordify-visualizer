@@ -1,23 +1,20 @@
 const React = require('react');
 const Link = require('react-router-dom').Link;
-const VoteButtons = require('./VoteButtons');
+const Vote = require('../containers/Vote');
 
-class About extends React.Component {
+const About = function() {
+  return (
+    <div>
+      <h1>About</h1>
 
-  render() {
-    return (
-      <div>
-        <h1>About</h1>
-        
-        <p>This is a starter react app using react-router-dom to add client-side routes!</p>
-        
-        <h2>Rate this app!</h2>
-        <VoteButtons />
-        
-        <Link to='/'>Go home</Link>
-      </div>
-    );
-  }
+      <p>This is a starter react app use react-redux to manage state - try rating this app below to see it in action!</p>
+
+      <h2>Rate this app!</h2>
+      <Vote />
+
+      <Link to='/'>Go home</Link>
+    </div>
+  );
 }
 
 module.exports = About;

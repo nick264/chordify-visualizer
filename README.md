@@ -1,4 +1,4 @@
-Starter React Router App on Glitch
+Starter React Redux App on Glitch
 =========================
 
 Click `Show` in the header to see your app live. Updates to your code will instantly deploy and update live.
