@@ -10,12 +10,13 @@ const dependenciesArray = [
   'webpack - for bundling all the javascript',
   'jsx-loader - allows webpack to load jsx files',
   'react-router-dom - handles routing!',
-  'react-redux'
+  'react-redux - handles state!'
 ];
 
 const componentsMade = [
   'HelloWorld - which is the view you are seeing now',
   'UnorderedList - which takes an array of "items" and returns a <ul> element with <li>, elements of each of those items within it',
+  'About - text content to show when "about" route is accessed',
 ];
 
 class HelloWorld extends React.Component {
@@ -29,11 +30,11 @@ class HelloWorld extends React.Component {
       
         <p>This is a starter <a href="http://glitch.com">Glitch</a> app for React! 
           It uses only a few dependencies to get you started on working with 
-          React including routing:</p>
+          state handling via Redux:</p>
       
         <UnorderedList items={dependenciesArray} />
       
-        <p>Look in <code>app/components/</code> for two example components:</p>
+        <p>Look in <code>app/components/</code> for {componentsMade.length} example components:</p>
         
         <UnorderedList items={componentsMade} />
         
