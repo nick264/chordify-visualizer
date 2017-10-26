@@ -1,4 +1,4 @@
-const path = require('path');
+cconst path = require('path');
 
 module.exports = {
   context: path.join(__dirname, './'),
