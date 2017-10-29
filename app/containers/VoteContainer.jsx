@@ -1,4 +1,5 @@
-// container for VoteButtons which maps state and dispatches to is props
+/* container which maps state and dispatches to is props 
+  so it can be referenced in the VoteButtons component */
 
 const { connect } = require('react-redux');
 const actions = require('../actions');
@@ -22,9 +23,9 @@ const mapDispatchToProps = function(dispatch) {
   }
 }
 
-const Vote = connect(
+const VoteContainer = connect(
   mapStateToProps,
   mapDispatchToProps
 )(VoteButtons);
 
-module.exports = Vote;
+module.exports = VoteContainer;

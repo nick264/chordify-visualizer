@@ -2,6 +2,7 @@ const React = require('react');
 const Link = require('react-router-dom').Link
 const UnorderedList = require('./UnorderedList');
 const About = require('./About');
+const VoteContainer = require('../containers/VoteContainer');
 
 const dependenciesArray = [
   'express - middleware for the node server',
@@ -19,10 +20,11 @@ const componentsMade = [
   'UnorderedList - which takes an array of "items" and returns a <ul> element with <li>, elements of each of those items within it',
   'About - text content to show when "about" route is accessed',
   'VoteButtons - buttons to rate the app up or down',
-  'Vote - container that connects the redux state to the VoteButtons component so you can see vote score and count updated',
+  'VoteContainer - container that connects the redux state to the VoteButtons component so you can see total score and count updated',
 ];
 
-const HelloWorld = function(){
+/* the main page for the index route of this app */
+const HelloWorld = function() {
   return (
     <div>
       <h1>Hello World!</h1>
@@ -41,6 +43,8 @@ const HelloWorld = function(){
 
       <p>Note: You may not normally create a component for an unordered list, 
         but I did here just so I can show the power of code reuse by way of building components :)</p>
+      
+      <VoteContainer label="Upvote or downvote this app!"/>
     </div>
   );
 };

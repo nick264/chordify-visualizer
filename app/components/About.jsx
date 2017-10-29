@@ -1,7 +1,8 @@
 const React = require('react');
 const Link = require('react-router-dom').Link;
-const Vote = require('../containers/Vote');
+const VoteContainer = require('../containers/VoteContainer');
 
+/* the main page for the about route of this app */
 const About = function() {
   return (
     <div>
@@ -9,8 +10,7 @@ const About = function() {
 
       <p>This is a starter react app use react-redux to manage state - try rating this app below to see it in action!</p>
 
-      <h2>Rate this app!</h2>
-      <Vote />
+      <VoteContainer label="Upvote or downvote this app!"/>
 
       <Link to='/'>Go home</Link>
     </div>
