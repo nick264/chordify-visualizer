@@ -12811,8 +12811,6 @@ const { Provider } = __webpack_require__(113);
 const votes = __webpack_require__(271);
 
 let store = createStore(votes);
-console.log(store)
-
 /* Import Components */
 const HelloWorld = __webpack_require__(272);
 const About = __webpack_require__(118);
