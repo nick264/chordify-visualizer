@@ -1,4 +1,4 @@
-/* container which maps state and dispatches to is props 
+/* container which maps state and dispatches to its props 
   so it can be referenced in the VoteButtons component */
 
 const { connect } = require('react-redux');

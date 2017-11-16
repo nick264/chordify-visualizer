@@ -1,6 +1,4 @@
 const React = require('react');
-const { dispatch } = require('redux');
-const actions = require('../actions');
 
 /* takes a prop 'label' and gets the other props from store via VoteContainer 
   and returns a div containing the label, vote buttons, and vote summary */
