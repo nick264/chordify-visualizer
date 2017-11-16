@@ -12,6 +12,7 @@ const { Provider } = require('react-redux');
 const votes = require('./reducers');
 
 let store = createStore(votes);
+
 /* Import Components */
 const HelloWorld = require('./components/HelloWorld');
 const About = require('./components/About');
