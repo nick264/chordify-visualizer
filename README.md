@@ -5,7 +5,7 @@ This app is a very small scaffold to get you started using Redux with React, and
 
 This project relates to video 4 of 5 in the [React Starter Kit](https://glitch.com/react-starter-kit) video series.
 
-[![](https://cdn.glitch.com/7416f09f-3fb8-4d64-a222-f533d74a29fa%2Freact-redux.png?1513175252007)](https://www.youtube.com/watch?v=r5CmSiRRF6A)
+[![](https://cdn.glitch.com/7416f09f-3fb8-4d64-a222-f533d74a29fa%2Freact-redux.png?1513175252007)](https://youtu.be/M4bqyGj-rYw)
 
 Click `Show` in the header to see your app live. Updates to your code will instantly deploy and update live.
 
