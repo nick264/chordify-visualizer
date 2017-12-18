@@ -12717,7 +12717,9 @@ module.exports = {
   
   DOWNVOTE: 'DOWNVOTE',
 
-  upvote: function() {
+  upvote: function(youtube_id) {
+    const url = `https://chordify.net/song/data/youtube:${youtube_id}?vocabulary=extended_inversions`
+    
     return {
       type: this.UPVOTE
     }
