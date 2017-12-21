@@ -12709,30 +12709,7 @@ function verifyPlainObject(value, displayName, methodName) {
 /* 117 */
 /***/ (function(module, exports) {
 
-/* actions */
-
-module.exports = {
- 
-  UPVOTE: 'UPVOTE',
-  
-  DOWNVOTE: 'DOWNVOTE',
-
-  upvote: function(youtube_id) {
-    const url = `https://chordify.net/song/data/youtube:${youtube_id}?vocabulary=extended_inversions`
-    
-    return {
-      type: this.UPVOTE
-    }
-  },
-
-  downvote: function() {
-    return {
-      type: this.DOWNVOTE
-    }
-  }
-  
-}
-
+throw new Error("Module build failed: Error: Parse Error: Line 14: Unexpected token {\n    at throwError (/app/node_modules/jstransform/node_modules/esprima-fb/esprima.js:2818:21)\n    at throwUnexpected (/app/node_modules/jstransform/node_modules/esprima-fb/esprima.js:2880:9)\n    at consumeSemicolon (/app/node_modules/jstransform/node_modules/esprima-fb/esprima.js:3003:13)\n    at parseStatement (/app/node_modules/jstransform/node_modules/esprima-fb/esprima.js:5718:9)\n    at parseSourceElement (/app/node_modules/jstransform/node_modules/esprima-fb/esprima.js:6475:20)\n    at parseFunctionSourceElements (/app/node_modules/jstransform/node_modules/esprima-fb/esprima.js:5780:29)\n    at parseFunctionExpression (/app/node_modules/jstransform/node_modules/esprima-fb/esprima.js:6066:16)\n    at parsePrimaryExpression (/app/node_modules/jstransform/node_modules/esprima-fb/esprima.js:3537:24)\n    at parseLeftHandSideExpressionAllowCall (/app/node_modules/jstransform/node_modules/esprima-fb/esprima.js:3682:61)\n    at parsePostfixExpression (/app/node_modules/jstransform/node_modules/esprima-fb/esprima.js:3722:20)\n    at parseUnaryExpression (/app/node_modules/jstransform/node_modules/esprima-fb/esprima.js:3789:16)\n    at parseBinaryExpression (/app/node_modules/jstransform/node_modules/esprima-fb/esprima.js:3879:16)\n    at parseConditionalExpression (/app/node_modules/jstransform/node_modules/esprima-fb/esprima.js:3939:16)\n    at parseAssignmentExpression (/app/node_modules/jstransform/node_modules/esprima-fb/esprima.js:4192:16)\n    at parseObjectProperty (/app/node_modules/jstransform/node_modules/esprima-fb/esprima.js:3193:25)\n    at parseObjectInitialiser (/app/node_modules/jstransform/node_modules/esprima-fb/esprima.js:3396:28)\n    at parsePrimaryExpression (/app/node_modules/jstransform/node_modules/esprima-fb/esprima.js:3570:20)\n    at parseLeftHandSideExpressionAllowCall (/app/node_modules/jstransform/node_modules/esprima-fb/esprima.js:3682:61)\n    at parsePostfixExpression (/app/node_modules/jstransform/node_modules/esprima-fb/esprima.js:3722:20)\n    at parseUnaryExpression (/app/node_modules/jstransform/node_modules/esprima-fb/esprima.js:3789:16)\n    at parseBinaryExpression (/app/node_modules/jstransform/node_modules/esprima-fb/esprima.js:3879:16)\n    at parseConditionalExpression (/app/node_modules/jstransform/node_modules/esprima-fb/esprima.js:3939:16)\n    at parseAssignmentExpression (/app/node_modules/jstransform/node_modules/esprima-fb/esprima.js:4192:16)\n    at parseAssignmentExpression (/app/node_modules/jstransform/node_modules/esprima-fb/esprima.js:4237:95)\n    at parseExpression (/app/node_modules/jstransform/node_modules/esprima-fb/esprima.js:4249:16)\n    at parseStatement (/app/node_modules/jstransform/node_modules/esprima-fb/esprima.js:5702:16)\n    at parseSourceElement (/app/node_modules/jstransform/node_modules/esprima-fb/esprima.js:6475:20)\n    at parseProgramElement (/app/node_modules/jstransform/node_modules/esprima-fb/esprima.js:6491:16)\n    at parseProgramElements (/app/node_modules/jstransform/node_modules/esprima-fb/esprima.js:6523:29)\n    at parseProgram (/app/node_modules/jstransform/node_modules/esprima-fb/esprima.js:6536:16)");
 
 /***/ }),
 /* 118 */
