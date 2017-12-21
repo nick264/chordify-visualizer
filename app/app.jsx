@@ -9,19 +9,19 @@ const hashHistory = require('react-router-dom').hashHistory;
 // redux
 const { createStore } = require('redux');
 const { Provider } = require('react-redux');
-const votes = require('./reducers');
+const rootReducer = require('./rootReducer');
 
-let store = createStore(votes);
+let store = createStore(rootReducer);
 
 /* Import Components */
-const HelloWorld = require('./components/HelloWorld');
+const Index = require('./components/Index');
 const About = require('./components/About');
 
 render((
   <Provider store={store}>
     <BrowserRouter>
       <div>
-        <Route exact path="/" component={HelloWorld}/>
+        <Route exact path="/" component={Index}/>
         <Route path="/about" component={About}/>
       </div>
     </BrowserRouter>
