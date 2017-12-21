@@ -12718,11 +12718,18 @@ const BrowserRouter = __webpack_require__(28).BrowserRouter;
 const hashHistory = __webpack_require__(28).hashHistory;
 
 // redux
-const { createStore } = __webpack_require__(106);
+const { createStore, applyMiddleware } = __webpack_require__(106);
+const thunkMiddleware = __webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"redux-thunk\""); e.code = 'MODULE_NOT_FOUND'; throw e; }()));
 const { Provider } = __webpack_require__(112);
 const rootReducer = __webpack_require__(268);
 
-let store = createStore(rootReducer);
+let store = createStore(
+  rootReducer,
+  {},
+  applyMiddleware(
+    thunkMiddleware // lets us have actions dispatch other actions!
+  )
+);
 
 /* Import Components */
 const Index = __webpack_require__(269);
