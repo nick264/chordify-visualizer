@@ -8,15 +8,21 @@ const hashHistory = require('react-router-dom').hashHistory;
 
 // redux
 const { createStore, applyMiddleware } = require('redux');
-const thunkMiddleware = require('redux-thunk');
+const thunkMiddleware = require('redux-thunk').default;
+const { createLogger } = require('redux-logger');
 const { Provider } = require('react-redux');
 const rootReducer = require('./rootReducer');
+const loggerMiddleware = createLogger();
+
+const _ = require('lodash');
 
 let store = createStore(
   rootReducer,
-  {},
+  // { ui: {youtubeId:'Zq5S5sH1Ikk'} },
+  { chordify: require('./data/preloaded.json') },
   applyMiddleware(
-    thunkMiddleware // lets us have actions dispatch other actions!
+    thunkMiddleware, // lets us have actions dispatch other actions, and actions with access to the state
+    loggerMiddleware
   )
 );
 

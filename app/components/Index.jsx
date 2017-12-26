@@ -1,26 +1,58 @@
 const React = require('react');
+const { Component } = require('react');
+const { connect } = require('react-redux');
 const Link = require('react-router-dom').Link
+const { Container, Grid } = require('semantic-ui-react');
+
 // const UnorderedList = require('./UnorderedList');
 // const About = require('./About');
 // const VoteContainer = require('../containers/VoteContainer');
 
-const Form = require ('./Form')
+const SubmitSong = require ('./SubmitSong')
+const History = require ('./History')
+const CurrentVideo = require ('./CurrentVideo')
+const Visualizer = require ('./Visualizer')
 
 /* the main page for the index route of this app */
-const Index = function() {
-  return (
-    <div>
-      <h1>Hello World! Pick a song</h1>
-
-      <Link to='/about'>Read about and Rate this app!</Link>
-
-      <p>This is a starter <a href="http://glitch.com">Glitch</a> app for React! 
-        It uses only a few dependencies to get you started on working with 
-        state handling via Redux:</p>
-      
-      <Form/>
-    </div>
-  );
+class Index extends Component {
+  render() {
+    const {ui, chordify} = this.props
+    return (
+      <Container>
+        <Grid>
+          <Grid.Row>
+            <Grid.Column>
+              <h1>Chordify Visualizer</h1>
+              <Link to='/about'>Read about this app!</Link>
+              <p>Pick a song to get started:</p>
+              <SubmitSong/>
+            </Grid.Column>
+          </Grid.Row>
+          <Grid.Row columns={2} divided>
+            <Grid.Column width={5}>
+              <CurrentVideo/>
+              <History/>
+            </Grid.Column>
+            <Grid.Column>
+              {
+                ui.currentYoutubeId &&
+                  <Visualizer
+                    chords={chordify.data[ui.currentYoutubeId]}
+                  />
+              }
+            </Grid.Column>
+          </Grid.Row>
+        </Grid>
+      </Container>
+    );
+  }
 };
 
-module.exports = Index;
+const mapStateToProps = (state) => {
+  return {
+    ui: state.ui,
+    chordify: state.chordify
+  }
+}
+
+module.exports = connect(mapStateToProps)(Index);

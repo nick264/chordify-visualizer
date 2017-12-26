@@ -1,0 +1,11 @@
+/* li {
+  display: block;
+} */
+
+.items a.item .content i {
+  opacity: 0;
+}
+
+.items a.item:hover i {
+  opacity: 1;
+}

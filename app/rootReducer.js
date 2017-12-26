@@ -1,10 +1,12 @@
-import { combineReducers } from 'redux'
-import uiReducer from './reducers/ui'
-import chordifyReducer from './reducers/chordify'
+const { combineReducers } = require('redux');
+const uiReducer = require('./reducers/ui');
+const chordifyReducer = require('./reducers/chordify');
+const playerReducer = require('./reducers/player');
 
 const rootReducer = combineReducers({
   ui: uiReducer,
-  chordify: chordifyReducer
+  chordify: chordifyReducer,
+  player: playerReducer
 })
 
-export default rootReducer;
+module.exports = rootReducer;
