@@ -1,7 +1,7 @@
 Chordify Visualizer
 =================================
 
-This project is an attempt to make some visuals that meaningfully react to music, by taking chords and beats into account. Most automatically generated audio visualizations just use the volume or the raw waveform, which doesn't really convey much of the feeling of the music.
+This project is an attempt to make some visuals that meaningfully react to music by taking chords and beats into account. Most automatically generated audio visualizations just use the volume or the raw waveform, which doesn't really convey much of the feeling of the music.
 
 All the hard work this project relies on (i.e. extracting chord & beat information) is done by [Chordify](https://chordify.net/). Chordify is an amazing tool that turns any piece of music into guitar tab automatically, so that you can learn to play your favorite songs.
 

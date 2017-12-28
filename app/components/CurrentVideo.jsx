@@ -17,6 +17,7 @@ class CurrentVideo extends Component {
                 url={`https://www.youtube.com/watch?v=${ui.currentYoutubeId}`}
                 onPlay={(e) => dispatch(playerActions.startPlaying(this.refs._player.getCurrentTime())) }
                 onPause={() => dispatch(playerActions.stopPlaying()) }
+                onEnded={() => dispatch(playerActions.stopPlaying()) }
                 onSeek={(e) => console.log('seek:', e)}
                 width={'100%'}
                 height={null}
