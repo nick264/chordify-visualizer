@@ -25,15 +25,13 @@ class SimpleVisualizer {
     this.clearCanvas()
     
     // get a color for the chord
-    const { hue, saturation } = this.chordColorMapping(chord)
+    const color = this.chordColorMapping(chord)
     
     // draw a colored rectangle
     const rectWidth = this.canvasWidth / this.beatsPerMeasure
     const rectStartX = rectWidth * ( beatNumber - 1 )
-    this.ctx.fillStyle= "red"// `hsla(${hue},${saturation},100%,100%)`
-    this.ctx.fillRect(rectStartX,0,rectStartX + rectWidth,this.canvasHeight)
-    
-    console.log('rectStartX=',rectStartX,'rectWidth=',rectWidth,'color=',`hsla(${hue},${saturation},100%,100%)`)
+    this.ctx.fillStyle = color
+    this.ctx.fillRect(rectStartX,0,rectWidth,this.canvasHeight)
     
     // print the chord name
     this.ctx.font = "15px Arial";
@@ -47,10 +45,7 @@ class SimpleVisualizer {
   chordColorMapping(chord) {
     // if no chord, return a darkish color
     if(chord == "N") {
-      return {
-        hue: 0,
-        sat: 360 * 0.1
-      }
+      return "hsl(0,10%,20%)"
     }
     
     // assign hue based on chromatic position of chord tonic
@@ -59,10 +54,8 @@ class SimpleVisualizer {
     const tonicPart = chord.split(":")[0]
     const majMinPart = chord.split(":")[1]
     
-    return {
-      hue: CHROMATIC_SCALE[tonicPart] / 12 * 360,
-      saturation: majMinPart == "maj" ? 360 * 0.85 : 360 * 0.45
-    }
+    const hue = CHROMATIC_SCALE[tonicPart] / 12 * 360
+    return `hsl(${hue},${majMinPart == "maj" ? '85%' : '45%'},100%`
   }
 }
 
