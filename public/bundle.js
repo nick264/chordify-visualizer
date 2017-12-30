@@ -88974,7 +88974,7 @@ class Visualizer extends Component {
     this._getChordArray()
     
     // set up the visualizer
-    this.visualizer = new VisualizerGraphics(this.refs._canvas)
+    this.visualizer = new VisualizerGraphics(this.refs._canvas,this.props.chords,this.chordArray)
   }
   
   // parse the string representing the chord timing of the song
@@ -89132,14 +89132,16 @@ class SimpleVisualizer {
     // draw a colored rectangle
     const rectWidth = this.canvasWidth / this.beatsPerMeasure
     const rectStartX = rectWidth * ( beatNumber - 1 )
-    this.ctx.fillStyle= `hsl(${hue},${saturation},80%)`
+    this.ctx.fillStyle= "red"// `hsla(${hue},${saturation},100%,100%)`
     this.ctx.fillRect(rectStartX,0,rectStartX + rectWidth,this.canvasHeight)
     
+    console.log('rectStartX=',rectStartX,'rectWidth=',rectWidth,'color=',`hsla(${hue},${saturation},100%,100%)`)
+    
     // print the chord name
-    this.ctx.font = "20px Arial";
+    this.ctx.font = "15px Arial";
     this.ctx.fillStyle = "white";
     this.ctx.textAlign = "center";
-    this.ctx.fillText(chord, rectStartX + 0.5 * rectWidth); 
+    this.ctx.fillText(chord, rectStartX + 0.5 * rectWidth, this.canvasHeight / 2); 
   }
   
   // maps a chord name to hue and saturation

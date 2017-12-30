@@ -21,7 +21,7 @@ class Visualizer extends Component {
     this._getChordArray()
     
     // set up the visualizer
-    this.visualizer = new VisualizerGraphics(this.refs._canvas)
+    this.visualizer = new VisualizerGraphics(this.refs._canvas,this.props.chords,this.chordArray)
   }
   
   // parse the string representing the chord timing of the song
