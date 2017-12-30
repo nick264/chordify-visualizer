@@ -1,11 +1,20 @@
 const { TimelineMax, Linear } = require('gsap');
-const noise = require('noisejs');
+const { Noise } = require('noisejs');
 // const THREE = require('three-js')(['OrbitControls']);
 const THREE = require('three');
 var OrbitControls = require('three-orbit-controls')(THREE)
 
 class Tunnel {
   constructor(canvas) {
+    this.requestAnimFrame = ( function() {
+      return window.requestAnimationFrame ||
+            window.webkitRequestAnimationFrame ||
+            window.mozRequestAnimationFrame ||
+            function( callback ) {
+              window.setTimeout( callback, 1000 / 60 );
+            };
+    })();
+    
     var ww = window.innerWidth,
       wh = window.innerHeight;
     this.curve = null
@@ -131,6 +140,7 @@ class Tunnel {
         normal.z = (cos * N.z + sin * B.z);
         normal.normalize();
 
+        var noise = new Noise(Math.random());
         var noiseIndex = ((noise.simplex3(p.x * 0.04, p.y * 0.04, p.z * 0.04)) + 1) / 2 * 360;
 
         vertex.x = p.x + this.opts.radius * normal.x;
