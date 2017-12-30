@@ -143,7 +143,7 @@ class Tunnel {
         normal.normalize();
 
         var noise = new Noise(Math.random());
-        var noiseIndex = ((noise.simplex3(p.x * 0.04, p.y * 0.04, p.z * 0.04)) + 1) / 2 * 360;
+        var noiseIndex = ((noise.simplex3(p.x * 0.0001, p.y * 0.0001, p.z * 0.0001)) + 1) / 2 * 360;
 
         vertex.x = p.x + this.opts.radius * normal.x;
         vertex.y = p.y + this.opts.radius * normal.y;
