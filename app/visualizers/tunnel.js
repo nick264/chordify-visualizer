@@ -15,8 +15,10 @@ class Tunnel {
             };
     })();
     
-    var ww = window.innerWidth,
-      wh = window.innerHeight;
+    // var ww = window.innerWidth,
+    //   wh = window.innerHeight;
+    var ww = canvas.width, wh = canvas.height
+    
     this.curve = null
     this.opts = {
       radius: 1.5,
