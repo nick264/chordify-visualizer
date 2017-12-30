@@ -1,4 +1,4 @@
-const THREE = require('three');
+const { WebGLRenderer }  = require('three');
 const { TimelineMax, Linear } = require('gsap');
 const noise = require('noisejs');
 
@@ -14,7 +14,7 @@ class Tunnel {
       radiusSegments: 25
     };
 
-    this.renderer = new THREE.WebGLRenderer({
+    this.renderer = new WebGLRenderer({
       canvas: canvas,
       antialias: true
     });
