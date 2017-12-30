@@ -24,49 +24,31 @@ class SimpleVisualizer {
     // erase the canvas
     this.clearCanvas()
     
+    // get a color for the chord
+    const { hue, saturation } = this.chordColorMapping(chord)
+    
     // draw a rectangle
     const rectWidth = this.canvasWidth / this.beatsPerMeasure
     const rectStartX = rectWidth * ( beatNumber - 1 )
-    this.ctx.fillStyle=
+    this.ctx.fillStyle= `hsl(${hue},${saturation},
     this.ctx.fillRect(rectStartX,0,rectStartX + rectWidth,this.canvasHeight)
   }
   
   // maps a chord name to hue and saturation
-  chordColorMapping() {
-    {
-      "N": [0,0],
-      "Ab:maj": [],
-      "Ab:min": 137,
-      "A:maj": 254,
-      "A:min": 18,
-      "Bb:maj": 209,
-      "Bb:min": 6,
-      "B:maj": 269,
-      "B:min": 54,
-      "C:maj": 43,
-      "C:min": 71,
-      "C#:maj": 2,
-      "C#:min": 2,
-      "Db:maj": 2,
-      "Db:min": 2,
-      "D:maj": 45,
-      "D:min": 45,
-      "D#:maj": 45,
-      "D#:min": 45,
-      "Eb:maj": 375,
-      "Eb:min": 169,
-      "E:maj": 375,
-      "E:min": 169,
-      "F:maj": 8,
-      "F:min": 37,
-      "F#:maj": 161,
-      "F#:min": 107,
-      "Gb:maj": 131,
-      "Gb:min": 4,
-      "G:maj": 131,
-      "G:min": 4,
-      "G#:maj": 131,
-      "G#:min": 4
+  chordColorMapping(chord) {
+    if(chord == "N") {
+      return {
+        hue: 0,
+        sat: 360 * 0.1
+      }
+    }
+    
+    const CHROMATIC_SCALE = {"A":0,"A#":1,"Bb":1,"B":2,"C":3,"C#":4,"Db":4,"D":5,"D#":6,"Eb":6,"E":7,"F":8,"F#":9,"Gb":9,"G":10,"G#":11,"Ab":11}
+    const keyPart = chord.split(":")
+    
+    return {
+      hue: chromaticScale,
+      saturation: 
     }
   }
 }
