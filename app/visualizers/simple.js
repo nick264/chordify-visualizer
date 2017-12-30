@@ -27,15 +27,23 @@ class SimpleVisualizer {
     // get a color for the chord
     const { hue, saturation } = this.chordColorMapping(chord)
     
-    // draw a rectangle
+    // draw a colored rectangle
     const rectWidth = this.canvasWidth / this.beatsPerMeasure
     const rectStartX = rectWidth * ( beatNumber - 1 )
-    this.ctx.fillStyle= `hsl(${hue},${saturation},
+    this.ctx.fillStyle= `hsl(${hue},${saturation},100%)`
     this.ctx.fillRect(rectStartX,0,rectStartX + rectWidth,this.canvasHeight)
+    
+    // print the chord name
+    this.ctx.font = "20px Arial";
+    this.ctx.fillStyle = "white";
+    this.ctx.textAlign = "center";
+    this.ctx.fillText(chord, rectStartX + 0.5 * rectWidth); 
   }
   
   // maps a chord name to hue and saturation
+  // chords are of the following format: {tonic}:{majMin}, e.g. Ab:maj, C:min
   chordColorMapping(chord) {
+    // if no chord, return a darkish color
     if(chord == "N") {
       return {
         hue: 0,
@@ -43,12 +51,15 @@ class SimpleVisualizer {
       }
     }
     
+    // assign hue based on chromatic position of chord tonic
+    // assign saturation based on whether the chord is major or minor
     const CHROMATIC_SCALE = {"A":0,"A#":1,"Bb":1,"B":2,"C":3,"C#":4,"Db":4,"D":5,"D#":6,"Eb":6,"E":7,"F":8,"F#":9,"Gb":9,"G":10,"G#":11,"Ab":11}
-    const keyPart = chord.split(":")
+    const tonicPart = chord.split(":")[0]
+    const majMinPart = chord.split(":")[1]
     
     return {
-      hue: chromaticScale,
-      saturation: 
+      hue: CHROMATIC_SCALE[tonicPart] / 12 * 360,
+      saturation: majMinPart == "maj" ? 360 * 0.85 : 360 * 0.45
     }
   }
 }
