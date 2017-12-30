@@ -78,7 +78,7 @@ class Tunnel {
     });
     
     
-    this.interval = 0.02;
+    this.interval = 0.04;
     this.progress = {
       z: 0
     };
@@ -94,7 +94,7 @@ class Tunnel {
       repeat: -1
     });
     animTl.to(this.progress, 60, {
-      z: 1,
+      z: 4,
       ease: Linear.easeNone
     });
     this.createTube();
