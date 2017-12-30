@@ -2,7 +2,7 @@ const React = require('react');
 const { Component } = require('react');
 const { connect } = require('react-redux');
 
-const { FireworkCanvas } = require('../graphics/fireworks')
+const VisualizerGraphics = require('../visualizers/fireworks')
 
 const _ = require('lodash');
 
@@ -18,8 +18,8 @@ class Visualizer extends Component {
     // set up the 2d array of chords
     this._getChordArray()
     
-    // set up the canvas
-    this._initCanvas()
+    // set up the visualizer
+    this.visualizer = new VisualizerGraphics(this.refs._canvas)
   }
   
   // parse the string representing the chord timing of the song
@@ -66,23 +66,9 @@ class Visualizer extends Component {
     }
   }
   
-  _initCanvas() {
-    // canvas setup code goes here
-    this.visualizer = new Fireworks(this.refs._canvas)
-  }
-  
   _onBeat(beatNumber,chord) {
     // canvas code to execute on every beat
-    if(beatNumber == 1) {
-      var explosions = Math.round(Math.random()*3) + 3
-    }
-    else {
-      var explosions = 1
-    }
-    
-    for( var i = 0; i < explosions; i += 1) {      
-      this.fireworkCanvas.createParticlesRandom(chord)
-    }
+    this.visualizer.onBeat(beatNumber,chord)
   }
   
 //   _onBeat(beat,chord) {

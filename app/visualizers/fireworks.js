@@ -1,4 +1,9 @@
-// adapted slightly from haiqing wang's fireworks demo
+// Fireworks!
+// like every visualizer: the exported class here (Fireworks) contains two main pieces:
+// (1) a constructor that takes the canvas as an argument and does initial setup
+// (2) a method "onBeat" that is called on every beat
+
+// adapted from haiqing wang's fireworks demo
 // https://codepen.io/whqet/pen/Auzch
 
 // an individual particle
@@ -161,6 +166,19 @@ class Fireworks {
       if(destroy) {
         this.particles.splice(i,1)
       }
+    }
+  }
+  
+  onBeat(beatNumber,chord) {
+    if(beatNumber == 1) {
+      var explosions = Math.round(Math.random()*3) + 3
+    }
+    else {
+      var explosions = 1
+    }
+    
+    for( var i = 0; i < explosions; i += 1) {      
+      this.createParticlesRandom(chord)
     }
   }
 }
