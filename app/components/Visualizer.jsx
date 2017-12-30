@@ -68,8 +68,7 @@ class Visualizer extends Component {
   
   _initCanvas() {
     // canvas setup code goes here
-    this.fireworkCanvas = new FireworkCanvas(this.refs._canvas)
-    this.fireworkCanvas.loop()
+    this.visualizer = new Fireworks(this.refs._canvas)
   }
   
   _onBeat(beatNumber,chord) {

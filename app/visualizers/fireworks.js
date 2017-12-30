@@ -68,7 +68,7 @@ class Particle {
 }
 
 // controls the generation of particles and canvas setup
-class FireworkCanvas {
+class Fireworks {
   constructor(canvas) {
     // when animating on canvas, it is best to use requestAnimationFrame instead of setTimeout or setInterval
     // not supported in all browsers though and sometimes needs a prefix, so we need a shim
@@ -92,7 +92,7 @@ class FireworkCanvas {
     
     canvas.style.backgroundColor = 'black'
     
-    // this.clear()
+    this.loop()
   }
   
   // clear() {
@@ -165,4 +165,4 @@ class FireworkCanvas {
   }
 }
 
-module.exports = { FireworkCanvas, Particle }
+module.exports = Fireworks
