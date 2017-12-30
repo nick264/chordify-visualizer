@@ -28,7 +28,8 @@
     "react-player": "^0.25.3",
     "semantic-ui-react": "^0.77.1",
     "url": "^0.11.0",
-    "three": "^1.58.1"
+    "three": "^1.58.1",
+    "gsap": "^1.20.3"
   },
   "engines": {
     "node": "8.x"
