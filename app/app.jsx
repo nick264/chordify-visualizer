@@ -19,7 +19,7 @@ const _ = require('lodash');
 let store = createStore(
   rootReducer,
   // { ui: {youtubeId:'Zq5S5sH1Ikk'} },
-  { chordify: require('./data/preloaded.json') },
+  { chordify: require('./data/preloaded-songs.json') },
   applyMiddleware(
     thunkMiddleware, // lets us have actions dispatch other actions, and actions with access to the state
     loggerMiddleware
