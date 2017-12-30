@@ -88955,6 +88955,7 @@ const React = __webpack_require__(0);
 const { Component } = __webpack_require__(0);
 const { connect } = __webpack_require__(56);
 
+// const VisualizerGraphics = require('../visualizers/fireworks')
 const VisualizerGraphics = __webpack_require__(855)
 
 const _ = __webpack_require__(146);
@@ -89096,194 +89097,234 @@ module.exports = connect(mapStateToProps)(Visualizer);
 
 /***/ }),
 /* 855 */
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
 
-// Fireworks!
-// like every visualizer: the exported class here (Fireworks) contains two main pieces:
-// (1) a constructor that takes the canvas as an argument and does initial setup
-// (2) a method "onBeat" that is called on every beat
+const THREE = __webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"three\""); e.code = 'MODULE_NOT_FOUND'; throw e; }()));
+const { TimelineMax, Linear } = __webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"gsap\""); e.code = 'MODULE_NOT_FOUND'; throw e; }()));
+const noise = __webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"noisejs\""); e.code = 'MODULE_NOT_FOUND'; throw e; }()));
 
-// adapted from haiqing wang's fireworks demo
-// https://codepen.io/whqet/pen/Auzch
-
-// an individual particle
-class Particle {
-  constructor(x,y,ctx,hue) {
-    this.x = x;
-    this.y = y;
-    this.ctx = ctx;
-    // track the past coordinates of each particle to create a trail effect, increase the coordinate count to create more prominent trails
-    this.coordinates = [];
-    this.coordinateCount = 5;
-    while( this.coordinateCount-- ) {
-      this.coordinates.push( [ this.x, this.y ] );
-    }
-    // set a random angle in all possible directions, in radians
-    this.angle = this.random( 0, Math.PI * 2 );
-    this.speed = this.random( 1, 10 );
-    // friction will slow the particle down
-    this.friction = 0.95;
-    // gravity will be applied and pull the particle down
-    this.gravity = 1;
-    // set the hue to a random number +-50 of the overall hue variable
-    this.hue = this.random( hue - 20, hue + 20 );
-    this.brightness = this.random( 50, 80 );
-    this.alpha = 1;
-    // set how fast the particle fades out
-    this.decay = this.random( 0.015, 0.03 );
-  }
-  
-  // get a random number within a range
-  random( min, max ) {
-    return Math.random() * ( max - min ) + min;
-  }
-  
-  // returns true if this particle is ready to be destroyed
-  update() {
-    // remove last item in coordinates array
-    this.coordinates.pop();
-    // add current coordinates to the start of the array
-    this.coordinates.unshift( [ this.x, this.y ] );
-    // slow down the particle
-    this.speed *= this.friction;
-    // apply velocity
-    this.x += Math.cos( this.angle ) * this.speed;
-    this.y += Math.sin( this.angle ) * this.speed + this.gravity;
-    // fade out the particle
-    this.alpha -= this.decay;
-
-    // remove the particle once the alpha is low enough, based on the passed in index
-    if( this.alpha <= this.decay ) {
-      return true
-    }
-    else {
-      return false
-    }
-  }
-  
-  draw() {
-    this.ctx. beginPath();
-    // move to the last tracked coordinates in the set, then draw a line to the current x and y
-    this.ctx.moveTo( this.coordinates[ this.coordinates.length - 1 ][ 0 ], this.coordinates[ this.coordinates.length - 1 ][ 1 ] );
-    this.ctx.lineWidth = 10;
-    this.ctx.lineTo( this.x, this.y );
-    this.ctx.strokeStyle = 'hsla(' + this.hue + ', 100%, ' + this.brightness + '%, ' + this.alpha + ')';
-    this.ctx.stroke();
-  }
-}
-
-// controls the generation of particles and canvas setup
-class Fireworks {
+class Tunnel {
   constructor(canvas) {
-    // when animating on canvas, it is best to use requestAnimationFrame instead of setTimeout or setInterval
-    // not supported in all browsers though and sometimes needs a prefix, so we need a shim
-    this.requestAnimFrame = ( function() {
-      return window.requestAnimationFrame ||
-            window.webkitRequestAnimationFrame ||
-            window.mozRequestAnimationFrame ||
-            function( callback ) {
-              window.setTimeout( callback, 1000 / 60 );
-            };
-    })();
+    var ww = window.innerWidth,
+      wh = window.innerHeight;
+    this.curve = null
+    this.opts = {
+      radius: 1.5,
+      segments: 400,
+      scale: 0.1,
+      radiusSegments: 25
+    };
+
+    this.renderer = new THREE.WebGLRenderer({
+      canvas: canvas,
+      antialias: true
+    });
+    this.renderer.setSize(ww, wh);
+
+    this.scene = new THREE.Scene();
+    this.camera = new THREE.PerspectiveCamera(45, ww / wh, 0.0001, 1000);
+    var controls = new THREE.OrbitControls(this.camera);
+    this.camera.position.z = 50;
+    this.camera.position.x = 100;
+    this.camera.position.y = 100;
+
+    /* ==================== */
+    /* ===== ON RESIZE ==== */
+    /* ==================== */
+    window.addEventListener("resize", function() {
+      ww = window.innerWidth;
+      wh = window.innerHeight;
+      this.camera.aspect = ww / wh;
+      this.camera.updateProjectionMatrix();
+      this.renderer.setSize(ww, wh);
+    });
+
+    /* ====================== */
+    /* === Path creation ==== */
+    /* ====================== */
+    this.particles = new THREE.Object3D();
+    this.scene.add(this.particles);
+    this.dotMap = new THREE.TextureLoader().load("https://s3-us-west-2.amazonaws.com/s.cdpn.io/127738/dotTexture.png");
+    var glowMap = new THREE.TextureLoader().load("https://s3-us-west-2.amazonaws.com/s.cdpn.io/127738/glow.png");
+    this.pathPoints = [
+      [935, 0],
+      [1287, 251],
+      [1007, 341],
+      [785, 801],
+      [506, 369],
+      [0, 510],
+      [42, 138],
+      [618, 203]
+    ];
+    this.glows = new THREE.Object3D();
+    this.scene.add(this.glows);
+    this.spriteMaterial = new THREE.SpriteMaterial({
+      map: glowMap,
+      color: 0xffffff,
+      transparent: true,
+      blending: THREE.AdditiveBlending
+    });
     
-    this.ctx = canvas.getContext( '2d' ),
-    // particle collection
-    this.particles = [],
-    // starting hue
-    this.hue = 120
     
-    this.cw = canvas.width
-    this.ch = canvas.height
+    this.interval = 0.02;
+    this.progress = {
+      z: 0
+    };
+
+    this.cube = new THREE.Mesh(new THREE.BoxGeometry(2, 2, 2), new THREE.MeshBasicMaterial({
+      color: 0xff0000
+    }));
+    this.scene.add(this.cube);
     
-    canvas.style.backgroundColor = 'black'
     
+    var animTl = new TimelineMax({
+      paused: true,
+      repeat: -1
+    });
+    animTl.to(this.progress, 60, {
+      z: 1,
+      ease: Linear.easeNone
+    });
+    this.createTube();
+    animTl.play();
     this.loop()
   }
-  
-  // clear() {
-  //   this.ctx.fillStyle="black";
-  //   this.ctx.fillRect(0,0,this.cw,this.ch);
-  // }
-  
-   // get a random number within a range
-  random( min, max ) {
-    return Math.random() * ( max - min ) + min;
-  }
 
-  colorForId(string) {
-    this.colorMap = this.colorMap || {};
-
-    if(!this.colorMap[string]) {
-      this.colorMap[string] = this.random(0, 360 )
+  createTube() {
+    //Create the 'tube'
+    var points = [];
+    for (var i = 0; i < this.pathPoints.length; i++) {
+      var x = this.pathPoints[i][0];
+      var y = (Math.random() - 0.5) * 500;
+      var z = this.pathPoints[i][1];
+      points.push(new THREE.Vector3(x, y, z).multiplyScalar(this.opts.scale));
     }
+    this.curve = new THREE.CatmullRomCurve3(points);
+    this.curve.closed = true;
+    this.curve.type = "catmullrom";
+    this.curve.tension = 0.6;
 
-    return this.colorMap[string]
-  }
-  
-  createParticles( x, y, colorId ) {
-    // increase the particle count for a bigger explosion, beware of the canvas performance hit with the increased particles though
-    var particleCount = 30;
-    while( particleCount-- ) {
-      this.particles.push( new Particle( x, y, this.ctx, this.colorForId(colorId) ) );
-    }
-  }
-  
-  createParticlesRandom(colorId) {
-    this.createParticles(
-      this.random(0,this.cw),
-      this.random(0,this.ch),
-      colorId
-    )
-  }
-  
-  loop() {
-    // this function will run endlessly with requestAnimationFrame
-    this.requestAnimFrame.call( window, this.loop.bind(this) );
+    //Create the particles
+    var geom = new THREE.Geometry();
+    var geom2 = new THREE.Geometry();
+    var geom3 = new THREE.Geometry();
+    var frames = this.curve.computeFrenetFrames(this.opts.segments, true);
+    var endPoint = this.curve.getPointAt(1);
+    for (i = 0; i < this.opts.segments; i++) {
+      var N = frames.normals[i];
+      var B = frames.binormals[i];
+      for (var j = 0; j < this.opts.radiusSegments; j++) {
+        var index = i / this.opts.segments;
+        // index += Math.random()*0.01;
+        // index = Math.min(index, 1)
+        var p = this.curve.getPointAt(index);
+        var vertex = p.clone();
+        var angle = Math.random() * Math.PI * 2;
+        var angle = (j / this.opts.radiusSegments) * Math.PI * 2;
+        var sin = Math.sin(angle);
+        var cos = -Math.cos(angle);
 
-    // increase the hue to get different colored fireworks over time
-    //hue += 0.5;
+        var normal = new THREE.Vector3();
+        normal.x = (cos * N.x + sin * B.x);
+        normal.y = (cos * N.y + sin * B.y);
+        normal.z = (cos * N.z + sin * B.z);
+        normal.normalize();
 
-    // create random color
-    this.hue = this.random(0, 360 );
+        var noiseIndex = ((noise.simplex3(p.x * 0.04, p.y * 0.04, p.z * 0.04)) + 1) / 2 * 360;
 
-    // normally, clearRect() would be used to clear the canvas
-    // we want to create a trailing effect though
-    // setting the composite operation to destination-out will allow us to clear the canvas at a specific opacity, rather than wiping it entirely
-    this.ctx.globalCompositeOperation = 'destination-out';
-    // decrease the alpha property to create more prominent trails
-    this.ctx.fillStyle = 'rgba(0, 0, 0, 0.5)';
-    this.ctx.fillRect( 0, 0, this.cw, this.ch );
-    // change the composite operation back to our main mode
-    // lighter creates bright highlight points as the fireworks and particles overlap each other
-    this.ctx.globalCompositeOperation = 'lighter';
+        vertex.x = p.x + this.opts.radius * normal.x;
+        vertex.y = p.y + this.opts.radius * normal.y;
+        vertex.z = p.z + this.opts.radius * normal.z;
+        var color = new THREE.Color("hsl(" + noiseIndex + ",80%,50%)");
+        geom.colors.push(color);
+        // geom.vertices.push(vertex);
+        var mat = this.spriteMaterial.clone();
+        mat.color = color;
+        var newSprite = new THREE.Sprite(mat);
+        newSprite.position.set(vertex.x, vertex.y, vertex.z);
+        newSprite.scale.set(0.25, 0.25, 0.25)
+        this.glows.add(newSprite);
 
-    // loop over each particle, draw it, update it
-    var i = this.particles.length;
-    while( i-- ) {
-      this.particles[ i ].draw();
-      const destroy = this.particles[ i ].update();
-      
-      if(destroy) {
-        this.particles.splice(i,1)
+      var vertex = p.clone();
+        vertex.x = p.x + this.opts.radius * 1.2 * normal.x;
+        vertex.y = p.y + this.opts.radius * 1.2 * normal.y;
+        vertex.z = p.z + this.opts.radius * 1.2 * normal.z;
+        geom2.colors.push(new THREE.Color("hsl(" + noiseIndex + ",80%,50%)"));
+        geom2.vertices.push(vertex);
+        var vertex = p.clone();
+        vertex.x = p.x + this.opts.radius * 1.5 * normal.x;
+        vertex.y = p.y + this.opts.radius * 1.5 * normal.y;
+        vertex.z = p.z + this.opts.radius * 1.5 * normal.z;
+        geom3.colors.push(new THREE.Color("hsl(" + noiseIndex + ",80%,50%)"));
+        geom3.vertices.push(vertex);
       }
     }
+    var mat = new THREE.PointsMaterial({
+      color: 0xffffff,
+      map: this.dotMap,
+      size: 0.1,
+      transparent: true,
+      vertexColors: THREE.VertexColors,
+      sizeAttenuation: true
+    });
+    var dots = new THREE.Points(geom, mat.clone());
+    this.particles.add(dots);
+    mat.transparent = true;
+    mat.opacity = 0.5;
+    var dots = new THREE.Points(geom2, mat.clone());
+    this.particles.add(dots);
+    mat.opacity = 0.3;
+    var dots = new THREE.Points(geom3, mat.clone());
+    this.particles.add(dots);
+
+    geom3.computeBoundingSphere();
+    var radius = geom3.boundingSphere.radius;
+    var center = geom3.boundingSphere.center;
+
+    var geom = new THREE.Geometry();
+    for (var i = 0; i < 4000; i++) {
+      var vertex = new THREE.Vector3();
+      vertex.x = (Math.random() - 0.5) * radius * 2;
+      vertex.y = (Math.random() - 0.5) * radius * 2;
+      vertex.z = (Math.random() - 0.5) * radius * 2;
+      geom.colors.push(new THREE.Color("hsl(" + Math.floor(Math.random() * 80 + 150) + ",80%,50%)"));
+      geom.vertices.push(vertex);
+    }
+    geom.translate(center.x, center.y, center.z);
+    var mat = new THREE.PointsMaterial({
+      size: 0.3,
+      map: this.dotMap,
+      vertexColors: THREE.VertexColors,
+      sizeAttenuation: true,
+      transparent: true,
+      opacity: 0.7
+    });
+    var stars = new THREE.Points(geom, mat);
+    this.particles.add(stars);
+  }
+
+  loop() {
+    this.requestAnimFrame.call( window, this.loop.bind(this) );
+
+    var tempProgress = this.progress.z;
+    var p1 = this.curve.getPointAt(tempProgress);
+    if (tempProgress + this.interval > 1) {
+      tempProgress = tempProgress - 1;
+    }
+    var p2 = this.curve.getPointAt(tempProgress + this.interval);
+    this.camera.position.set(p1.x, p1.y, p1.z);
+    this.camera.lookAt(p2);
+    this.cube.position.set(p1.x, p1.y, p1.z);
+
+    this.renderer.render(this.scene, this.camera);
   }
   
-  onBeat(beatNumber,chord) {
-    if(beatNumber == 1) {
-      var explosions = Math.round(Math.random()*3) + 3
-    }
-    else {
-      var explosions = 1
-    }
-    
-    for( var i = 0; i < explosions; i += 1) {      
-      this.createParticlesRandom(chord)
-    }
+  onBeat() {
+    return null
   }
 }
 
-module.exports = Fireworks
+module.exports = Tunnel
 
 /***/ }),
 /* 856 */

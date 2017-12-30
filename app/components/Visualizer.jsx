@@ -2,7 +2,8 @@ const React = require('react');
 const { Component } = require('react');
 const { connect } = require('react-redux');
 
-const VisualizerGraphics = require('../visualizers/fireworks')
+// const VisualizerGraphics = require('../visualizers/fireworks')
+const VisualizerGraphics = require('../visualizers/tunnel')
 
 const _ = require('lodash');
 

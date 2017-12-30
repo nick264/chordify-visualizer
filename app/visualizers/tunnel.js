@@ -1,5 +1,6 @@
-const THREE = require('three')
-const { TimelineMax, Linear } = require('gsap')
+const THREE = require('three');
+const { TimelineMax, Linear } = require('gsap');
+const noise = require('noisejs');
 
 class Tunnel {
   constructor(canvas) {
@@ -13,18 +14,18 @@ class Tunnel {
       radiusSegments: 25
     };
 
-    var renderer = new THREE.WebGLRenderer({
+    this.renderer = new THREE.WebGLRenderer({
       canvas: canvas,
       antialias: true
     });
-    renderer.setSize(ww, wh);
+    this.renderer.setSize(ww, wh);
 
-    var scene = new THREE.Scene();
-    var camera = new THREE.PerspectiveCamera(45, ww / wh, 0.0001, 1000);
-    var controls = new THREE.OrbitControls(camera);
-    camera.position.z = 50;
-    camera.position.x = 100;
-    camera.position.y = 100;
+    this.scene = new THREE.Scene();
+    this.camera = new THREE.PerspectiveCamera(45, ww / wh, 0.0001, 1000);
+    var controls = new THREE.OrbitControls(this.camera);
+    this.camera.position.z = 50;
+    this.camera.position.x = 100;
+    this.camera.position.y = 100;
 
     /* ==================== */
     /* ===== ON RESIZE ==== */
@@ -32,17 +33,17 @@ class Tunnel {
     window.addEventListener("resize", function() {
       ww = window.innerWidth;
       wh = window.innerHeight;
-      camera.aspect = ww / wh;
-      camera.updateProjectionMatrix();
-      renderer.setSize(ww, wh);
+      this.camera.aspect = ww / wh;
+      this.camera.updateProjectionMatrix();
+      this.renderer.setSize(ww, wh);
     });
 
     /* ====================== */
     /* === Path creation ==== */
     /* ====================== */
-    var particles = new THREE.Object3D();
-    scene.add(particles);
-    var dotMap = new THREE.TextureLoader().load("https://s3-us-west-2.amazonaws.com/s.cdpn.io/127738/dotTexture.png");
+    this.particles = new THREE.Object3D();
+    this.scene.add(this.particles);
+    this.dotMap = new THREE.TextureLoader().load("https://s3-us-west-2.amazonaws.com/s.cdpn.io/127738/dotTexture.png");
     var glowMap = new THREE.TextureLoader().load("https://s3-us-west-2.amazonaws.com/s.cdpn.io/127738/glow.png");
     this.pathPoints = [
       [935, 0],
@@ -54,9 +55,9 @@ class Tunnel {
       [42, 138],
       [618, 203]
     ];
-    var glows = new THREE.Object3D();
-    scene.add(glows);
-    var spriteMaterial = new THREE.SpriteMaterial({
+    this.glows = new THREE.Object3D();
+    this.scene.add(this.glows);
+    this.spriteMaterial = new THREE.SpriteMaterial({
       map: glowMap,
       color: 0xffffff,
       transparent: true,
@@ -64,22 +65,22 @@ class Tunnel {
     });
     
     
-    var interval = 0.02;
-    var progress = {
+    this.interval = 0.02;
+    this.progress = {
       z: 0
     };
 
-    var cube = new THREE.Mesh(new THREE.BoxGeometry(2, 2, 2), new THREE.MeshBasicMaterial({
+    this.cube = new THREE.Mesh(new THREE.BoxGeometry(2, 2, 2), new THREE.MeshBasicMaterial({
       color: 0xff0000
     }));
-    scene.add(cube);
+    this.scene.add(this.cube);
     
     
     var animTl = new TimelineMax({
       paused: true,
       repeat: -1
     });
-    animTl.to(progress, 60, {
+    animTl.to(this.progress, 60, {
       z: 1,
       ease: Linear.easeNone
     });
@@ -130,50 +131,50 @@ class Tunnel {
 
         var noiseIndex = ((noise.simplex3(p.x * 0.04, p.y * 0.04, p.z * 0.04)) + 1) / 2 * 360;
 
-        vertex.x = p.x + opts.radius * normal.x;
-        vertex.y = p.y + opts.radius * normal.y;
-        vertex.z = p.z + opts.radius * normal.z;
+        vertex.x = p.x + this.opts.radius * normal.x;
+        vertex.y = p.y + this.opts.radius * normal.y;
+        vertex.z = p.z + this.opts.radius * normal.z;
         var color = new THREE.Color("hsl(" + noiseIndex + ",80%,50%)");
         geom.colors.push(color);
         // geom.vertices.push(vertex);
-        var mat = spriteMaterial.clone();
+        var mat = this.spriteMaterial.clone();
         mat.color = color;
         var newSprite = new THREE.Sprite(mat);
         newSprite.position.set(vertex.x, vertex.y, vertex.z);
         newSprite.scale.set(0.25, 0.25, 0.25)
-        glows.add(newSprite);
+        this.glows.add(newSprite);
 
       var vertex = p.clone();
-        vertex.x = p.x + opts.radius * 1.2 * normal.x;
-        vertex.y = p.y + opts.radius * 1.2 * normal.y;
-        vertex.z = p.z + opts.radius * 1.2 * normal.z;
+        vertex.x = p.x + this.opts.radius * 1.2 * normal.x;
+        vertex.y = p.y + this.opts.radius * 1.2 * normal.y;
+        vertex.z = p.z + this.opts.radius * 1.2 * normal.z;
         geom2.colors.push(new THREE.Color("hsl(" + noiseIndex + ",80%,50%)"));
         geom2.vertices.push(vertex);
         var vertex = p.clone();
-        vertex.x = p.x + opts.radius * 1.5 * normal.x;
-        vertex.y = p.y + opts.radius * 1.5 * normal.y;
-        vertex.z = p.z + opts.radius * 1.5 * normal.z;
+        vertex.x = p.x + this.opts.radius * 1.5 * normal.x;
+        vertex.y = p.y + this.opts.radius * 1.5 * normal.y;
+        vertex.z = p.z + this.opts.radius * 1.5 * normal.z;
         geom3.colors.push(new THREE.Color("hsl(" + noiseIndex + ",80%,50%)"));
         geom3.vertices.push(vertex);
       }
     }
     var mat = new THREE.PointsMaterial({
       color: 0xffffff,
-      map: dotMap,
+      map: this.dotMap,
       size: 0.1,
       transparent: true,
       vertexColors: THREE.VertexColors,
       sizeAttenuation: true
     });
     var dots = new THREE.Points(geom, mat.clone());
-    particles.add(dots);
+    this.particles.add(dots);
     mat.transparent = true;
     mat.opacity = 0.5;
     var dots = new THREE.Points(geom2, mat.clone());
-    particles.add(dots);
+    this.particles.add(dots);
     mat.opacity = 0.3;
     var dots = new THREE.Points(geom3, mat.clone());
-    particles.add(dots);
+    this.particles.add(dots);
 
     geom3.computeBoundingSphere();
     var radius = geom3.boundingSphere.radius;
@@ -191,29 +192,35 @@ class Tunnel {
     geom.translate(center.x, center.y, center.z);
     var mat = new THREE.PointsMaterial({
       size: 0.3,
-      map: dotMap,
+      map: this.dotMap,
       vertexColors: THREE.VertexColors,
       sizeAttenuation: true,
       transparent: true,
       opacity: 0.7
     });
     var stars = new THREE.Points(geom, mat);
-    particles.add(stars);
+    this.particles.add(stars);
   }
 
-  loop(a) {
+  loop() {
     this.requestAnimFrame.call( window, this.loop.bind(this) );
 
-    var tempProgress = progress.z;
-    var p1 = curve.getPointAt(tempProgress);
-    if (tempProgress + interval > 1) {
+    var tempProgress = this.progress.z;
+    var p1 = this.curve.getPointAt(tempProgress);
+    if (tempProgress + this.interval > 1) {
       tempProgress = tempProgress - 1;
     }
-    var p2 = curve.getPointAt(tempProgress + interval);
-    camera.position.set(p1.x, p1.y, p1.z);
-    camera.lookAt(p2);
-    cube.position.set(p1.x, p1.y, p1.z);
+    var p2 = this.curve.getPointAt(tempProgress + this.interval);
+    this.camera.position.set(p1.x, p1.y, p1.z);
+    this.camera.lookAt(p2);
+    this.cube.position.set(p1.x, p1.y, p1.z);
 
-    renderer.render(scene, camera);
+    this.renderer.render(this.scene, this.camera);
+  }
+  
+  onBeat() {
+    return null
   }
 }
+
+module.exports = Tunnel
