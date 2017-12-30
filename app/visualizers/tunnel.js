@@ -1,6 +1,6 @@
-const { WebGLRenderer }  = require('three');
 const { TimelineMax, Linear } = require('gsap');
 const noise = require('noisejs');
+const THREE = require('three-js')(['OrbitControls']);
 
 class Tunnel {
   constructor(canvas) {
@@ -14,7 +14,7 @@ class Tunnel {
       radiusSegments: 25
     };
 
-    this.renderer = new WebGLRenderer({
+    this.renderer = new THREE.WebGLRenderer({
       canvas: canvas,
       antialias: true
     });
