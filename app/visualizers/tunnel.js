@@ -5,7 +5,7 @@ const THREE = require('three');
 var OrbitControls = require('three-orbit-controls')(THREE)
 
 class Tunnel {
-  constructor(canvas,chordArray) {
+  constructor(canvas,songMetaData,chordArray) {
     this.requestAnimFrame = ( function() {
       return window.requestAnimationFrame ||
             window.webkitRequestAnimationFrame ||

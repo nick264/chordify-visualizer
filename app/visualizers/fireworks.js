@@ -74,7 +74,7 @@ class Particle {
 
 // controls the generation of particles and canvas setup
 class Fireworks {
-  constructor(canvas,chordArray) {
+  constructor(canvas,songMetaData,chordArray) {
     // when animating on canvas, it is best to use requestAnimationFrame instead of setTimeout or setInterval
     // not supported in all browsers though and sometimes needs a prefix, so we need a shim
     this.requestAnimFrame = ( function() {
