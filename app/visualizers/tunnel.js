@@ -1,6 +1,8 @@
 const { TimelineMax, Linear } = require('gsap');
 const noise = require('noisejs');
-const THREE = require('three-js')(['OrbitControls']);
+// const THREE = require('three-js')(['OrbitControls']);
+const THREE = require('three');
+var OrbitControls = require('three-orbit-controls')(THREE)
 
 class Tunnel {
   constructor(canvas) {
@@ -22,7 +24,7 @@ class Tunnel {
 
     this.scene = new THREE.Scene();
     this.camera = new THREE.PerspectiveCamera(45, ww / wh, 0.0001, 1000);
-    var controls = new THREE.OrbitControls(this.camera);
+    var controls = new OrbitControls(this.camera);
     this.camera.position.z = 50;
     this.camera.position.x = 100;
     this.camera.position.y = 100;
