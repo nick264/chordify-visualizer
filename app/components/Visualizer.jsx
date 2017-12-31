@@ -6,8 +6,8 @@ const { Dropdown, Segment, Menu } = require('semantic-ui-react');
 // const Visualizers = requireDir('../visualizers')
 const reqVisualizers = require.context('../visualizers',false,/^.*\.js$/)
 const visualizerNames = reqVisualizers.keys()
-const defaultVisualizer = visualizerNames.find((v) => 
-const VisualizerGraphics = reqVisualizers(visualizerNames[0])
+const defaultVisualizer = visualizerNames.find((v) => v == './simple.js') || visualizerNames[0]
+const VisualizerGraphics = reqVisualizers(defaultVisualizer)
 
 // const VisualizerGraphics = require('../visualizers/simple')
 // const VisualizerGraphics = require('../visualizers/fireworks')
