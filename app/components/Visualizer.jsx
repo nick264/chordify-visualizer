@@ -3,11 +3,14 @@ const { Component } = require('react');
 const { connect } = require('react-redux');
 const { Dropdown } = require('semantic-ui-react');
 
-const VisualizerGraphics = require_dir
+// const Visualizers = requireDir('../visualizers')
+const Visualizers = require.context('../visualizers')
 
+console.log('Visualizers = ', Visualizers)
 
+const VisualizerGraphics = Visualizers.simple
 
-const VisualizerGraphics = require('../visualizers/simple')
+// const VisualizerGraphics = require('../visualizers/simple')
 // const VisualizerGraphics = require('../visualizers/fireworks')
 // const VisualizerGraphics = require('../visualizers/tunnel')
 

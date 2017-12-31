@@ -4,7 +4,7 @@
   "//3": "updating this file will download and update your packages",
   "name": "starter-react-redux",
   "version": "0.0.1",
-  "description": "A starter app for using Redux to manage state in React",
+  "description": "A visualizer for Chordify chords and beats",
   "main": "server.js",
   "scripts": {
     "build": "webpack",
@@ -37,7 +37,7 @@
     "node": "8.x"
   },
   "repository": {
-    "url": "https://glitch.com/edit/#!/starter-react-redux"
+    "url": "https://glitch.com/edit/#!/chordify-visualizer"
   },
   "license": "MIT",
   "keywords": [
