@@ -121,7 +121,7 @@ class Visualizer extends Component {
     return(
       <div>
         <h3>Visualizer</h3>
-        <p>
+        <Segment>
           {
             this.props.player.playing ?
               <span>
@@ -134,13 +134,12 @@ class Visualizer extends Component {
             :
               <span>Not playing</span>
           }
-          <Dropdown placeholder='Select Friend'
-            inline
-            selection
-            options={visualizerNames.map((v) => ({text: v.match(/\.(.*).js/)[1], value: v}))}
+          <Dropdown placeholder='Select a visualizer'
+            style={{float: 'right'}}
+            options={visualizerNames.map((v) => ({text: v.match(/\/(.*).js/)[1], value: v}))}
             onChange={(e,data) => { console.log(data); this.setState({visualizer: data.value}) }}
           />
-        </p>
+        </Segment>
         <canvas ref='_canvas' style={{width: '100%'}} width={300} height={300}/>
       </div>
     )
