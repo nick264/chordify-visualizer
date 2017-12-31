@@ -1,6 +1,20 @@
 class SimpleVisualizer {
   // the constructor gets called when the Visualizer.jsx component initializes the visualizer (when the song is loaded)
   constructor(canvas,songMetaData,chordArray) {
+    
+    var requestAnimFrame = ( function() {
+      return window.requestAnimationFrame ||
+            window.webkitRequestAnimationFrame ||
+            window.mozRequestAnimationFrame ||
+            function( callback ) {
+              window.setTimeout( callback, 1000 / 60 );
+            };
+    })();
+    
+    var cancelAnimationFrame = window.cancelAnimationFrame || window.mozCancelAnimationFrame;
+    
+    cancelAnimationFrame(requestAnimFrame)
+    
     // set up some instance variables so that our class's other methods can access them
     this.canvas = canvas
     this.ctx = canvas.getContext( '2d' )

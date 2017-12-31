@@ -137,6 +137,7 @@ class Fireworks {
   }
   
   loop() {
+    console.log('running fireworks loop')
     // this function will run endlessly with requestAnimationFrame
     this.requestAnimFrame.call( window, this.loop.bind(this) );
 
