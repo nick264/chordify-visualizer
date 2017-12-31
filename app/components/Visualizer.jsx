@@ -137,8 +137,8 @@ class Visualizer extends Component {
           <Dropdown placeholder='Select Friend'
             inline
             selection
-            options={friendOptions}
-            onChange={(e,data) => { console.log(data); this.setState()}
+            options={visualizerNames.map((v) => ({text: v.match(/\.(.*).js/)[1], value: v}))}
+            onChange={(e,data) => { console.log(data); this.setState({visualizer: data.value}) }}
           />
         </p>
         <canvas ref='_canvas' style={{width: '100%'}} width={300} height={300}/>
