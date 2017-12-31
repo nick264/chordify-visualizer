@@ -3,15 +3,9 @@ const { Component } = require('react');
 const { connect } = require('react-redux');
 const { Dropdown, Segment, Menu } = require('semantic-ui-react');
 
-// const Visualizers = requireDir('../visualizers')
 const reqVisualizers = require.context('../visualizers',false,/^.*\.js$/)
 const visualizerNames = reqVisualizers.keys()
-const defaultVisualizerName = visualizerNames.find((v) => v == './simple.js') || visualizerNames[0]
-// const VisualizerGraphics = reqVisualizers(defaultVisualizerName)
-
-// const VisualizerGraphics = require('../visualizers/simple')
-// const VisualizerGraphics = require('../visualizers/fireworks')
-// const VisualizerGraphics = require('../visualizers/tunnel')
+const defaultVisualizerName = visualizerNames.find((v) => v == './tunnel.js') || visualizerNames[0]
 
 const _ = require('lodash');
 
@@ -31,6 +25,7 @@ class Visualizer extends Component {
     this._initVisualizer()
   }
   
+  // create an instance of the visualizer (whose class is this.state.visualizerName)
   _initVisualizer() {
     const VisualizerClass = reqVisualizers(this.state.visualizerName)
     this.visualizer = new VisualizerClass(this.refs._canvas,this.props.chords,this.chordArray)
@@ -52,16 +47,12 @@ class Visualizer extends Component {
     }
     
     const nextChord = this.chordArray[this.idx+1]
-    const currentTime = + new Date();
 
+    // figure out when the song started playing, how much time has passed, and when the next chord is supposed to be
+    const currentTime = + new Date();
     const inferredStartTime = this.props.player.latestTime - this.props.player.latestProgressSeconds * 1000
     const nextChordTime = inferredStartTime + parseFloat(nextChord[2]) * 1000 
     const sleepTime = nextChordTime - currentTime
-    
-    // console.log('inferredStartTime = ', inferredStartTime);
-    // console.log('nextChord = ', nextChord);
-    // console.log('nextChordTime = ', nextChordTime);    
-    // console.log('sleeptime=',sleepTime);
     
     if( sleepTime < 0 ) {
       console.log('skipping beat idx', this.idx,'...');
@@ -69,6 +60,7 @@ class Visualizer extends Component {
       this._doBeats();
     }
     else {
+      // schedule the next beat
       setTimeout(() => {
           this._onBeat(nextChord[0],nextChord[1]);
           this.setState({currentBeat: nextChord[0], currentChord: nextChord[1], currentBeatSeconds: nextChord[2]});
@@ -93,7 +85,7 @@ class Visualizer extends Component {
     
     // initialize the new visualizer if necessary
     if(prevState.visualizerName != this.state.visualizerName) {
-      console.log('visualizer changed')
+      console.log('visualizer changed to', this.state.visualizerName)
       this._initVisualizer()
     }
     
