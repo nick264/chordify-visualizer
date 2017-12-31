@@ -5,7 +5,7 @@ const { Dropdown, Segment, Menu } = require('semantic-ui-react');
 
 const reqVisualizers = require.context('../visualizers',false,/^.*\.js$/)
 const visualizerNames = reqVisualizers.keys()
-const defaultVisualizerName = visualizerNames.find((v) => v == './tunnel.js') || visualizerNames[0]
+const defaultVisualizerName = visualizerNames.find((v) => v == './fireworks.js') || visualizerNames[0]
 
 const _ = require('lodash');
 
