@@ -7,7 +7,7 @@ const { Dropdown, Segment, Menu } = require('semantic-ui-react');
 const reqVisualizers = require.context('../visualizers',false,/^.*\.js$/)
 const visualizerNames = reqVisualizers.keys()
 const defaultVisualizer = visualizerNames.find((v) => v == './simple.js') || visualizerNames[0]
-const VisualizerGraphics = reqVisualizers(defaultVisualizer)
+// const VisualizerGraphics = reqVisualizers(defaultVisualizer)
 
 // const VisualizerGraphics = require('../visualizers/simple')
 // const VisualizerGraphics = require('../visualizers/fireworks')
@@ -20,7 +20,7 @@ class Visualizer extends Component {
     super(props);
     
     this.canvas = null;
-    this.state = {};
+    this.state = { visualizerName: defaultVisualizer};
   }
   
   componentDidMount() {
@@ -28,7 +28,7 @@ class Visualizer extends Component {
     this._getChordArray()
     
     // set up the visualizer
-    this.visualizer = new VisualizerGraphics(this.refs._canvas,this.props.chords,this.chordArray)
+    this.visualizer = new this.state.Visualizer(this.refs._canvas,this.props.chords,this.chordArray)
   }
   
   // parse the string representing the chord timing of the song
@@ -79,29 +79,6 @@ class Visualizer extends Component {
     // canvas code to execute on every beat
     this.visualizer.onBeat(beatNumber,chord)
   }
-  
-//   _onBeat(beat,chord) {
-//     console.log('showing beat:',beat,chord);
-//     this.ctx.fillStyle = '#FFFFFF';
-//     this.ctx.fillRect(0,0,500,300);
-    
-//     this.ctx.fillStyle = this._randomColorForString(chord);
-//     console.log('color=',this._randomColorForString(chord));
-//     this.ctx.fillRect((beat-1) * 60,0,50,50);
-//   }
-  
-//   _randomColorForString(string) {
-//     this.colorMap = this.colorMap || {};
-    
-//     if(!this.colorMap[string]) {
-//       this.colorMap[string] = '#' + 
-//         Math.round(Math.random()*255).toString(16).padStart(2,'0') + 
-//         Math.round(Math.random()*255).toString(16).padStart(2,'0') + 
-//         Math.round(Math.random()*255).toString(16).padStart(2,'0')
-//     }
-    
-//     return this.colorMap[string]
-//   }
   
   componentDidUpdate(prevProps) {
     if(this.props.chords != prevProps.chords) {
