@@ -6,6 +6,7 @@ const { Dropdown, Segment, Menu } = require('semantic-ui-react');
 // const Visualizers = requireDir('../visualizers')
 const reqVisualizers = require.context('../visualizers',false,/^.*\.js$/)
 const visualizerNames = reqVisualizers.keys()
+const defaultVisualizer = visualizerNames.find((v) => 
 const VisualizerGraphics = reqVisualizers(visualizerNames[0])
 
 // const VisualizerGraphics = require('../visualizers/simple')
@@ -140,7 +141,7 @@ class Visualizer extends Component {
             <Dropdown placeholder='Select a visualizer'
               className='link item'
               options={visualizerNames.map((v) => ({text: v.match(/\/(.*).js/)[1], value: v}))}
-              onChange={(e,data) => { console.log(e); this.setState({visualizer: e.value}) }}
+              onChange={(e,data) => { console.log(e.target.value); this.setState({visualizer: e.target.value}) }}
             />
           </Menu.Menu>
         </Menu>

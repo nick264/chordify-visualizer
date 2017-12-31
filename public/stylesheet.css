@@ -1,6 +1,4 @@
-/* li {
-  display: block;
-} */
+/* close button for history items */
 
 .items a.item .content i {
   opacity: 0;
@@ -8,4 +6,11 @@
 
 .items a.item:hover i {
   opacity: 1;
+}
+
+
+/* override default menu styling */
+
+.ui.menu .item:before {
+  background: none !important;
 }
