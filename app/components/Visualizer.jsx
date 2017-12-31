@@ -6,8 +6,8 @@ const { Dropdown, Segment, Menu } = require('semantic-ui-react');
 // const Visualizers = requireDir('../visualizers')
 const reqVisualizers = require.context('../visualizers',false,/^.*\.js$/)
 const visualizerNames = reqVisualizers.keys()
-const defaultVisualizer = visualizerNames.find((v) => v == './simple.js') || visualizerNames[0]
-// const VisualizerGraphics = reqVisualizers(defaultVisualizer)
+const defaultVisualizerName = visualizerNames.find((v) => v == './simple.js') || visualizerNames[0]
+// const VisualizerGraphics = reqVisualizers(defaultVisualizerName)
 
 // const VisualizerGraphics = require('../visualizers/simple')
 // const VisualizerGraphics = require('../visualizers/fireworks')
@@ -20,7 +20,7 @@ class Visualizer extends Component {
     super(props);
     
     this.canvas = null;
-    this.state = { visualizerName: defaultVisualizer};
+    this.state = { visualizerName: defaultVisualizerName};
   }
   
   componentDidMount() {
@@ -28,7 +28,12 @@ class Visualizer extends Component {
     this._getChordArray()
     
     // set up the visualizer
-    this.visualizer = new this.state.Visualizer(this.refs._canvas,this.props.chords,this.chordArray)
+    this._initVisualizer()
+  }
+  
+  _initVisualizer() {
+    const VisualizerClass = reqVisualizers(this.state.visualizerName)
+    this.visualizer = new VisualizerClass(this.refs._canvas,this.props.chords,this.chordArray)
   }
   
   // parse the string representing the chord timing of the song
@@ -80,9 +85,16 @@ class Visualizer extends Component {
     this.visualizer.onBeat(beatNumber,chord)
   }
   
-  componentDidUpdate(prevProps) {
+  componentDidUpdate(prevProps,prevState) {
+    // re-parse the chords, if the chord data has changed
     if(this.props.chords != prevProps.chords) {
       this._getChordArray()
+    }
+    
+    // initialize the new visualizer if necessary
+    if(prevState.visualizerName != this.state.visualizerName) {
+      console.log('visualizer changed')
+      this._initVisualizer()
     }
     
     // start the beat scheduler if we've started playing
@@ -117,8 +129,9 @@ class Visualizer extends Component {
           <Menu.Menu position='right'>
             <Dropdown placeholder='Select a visualizer'
               className='link item'
+              value={this.state.visualizerName}
               options={visualizerNames.map((v) => ({text: v.match(/\/(.*).js/)[1], value: v}))}
-              onChange={(e,data) => { console.log(e.target.value); this.setState({visualizer: e.target.value}) }}
+              onChange={(e,data) => { console.log(data); this.setState({visualizerName: data.value}) }}
             />
           </Menu.Menu>
         </Menu>
