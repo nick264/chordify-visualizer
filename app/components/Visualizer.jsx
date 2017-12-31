@@ -1,7 +1,7 @@
 const React = require('react');
 const { Component } = require('react');
 const { connect } = require('react-redux');
-const { Dropdown } = require('semantic-ui-react');
+const { Dropdown, Segment, Menu } = require('semantic-ui-react');
 
 // const Visualizers = requireDir('../visualizers')
 const reqVisualizers = require.context('../visualizers',false,/^.*\.js$/)
@@ -121,25 +121,29 @@ class Visualizer extends Component {
     return(
       <div>
         <h3>Visualizer</h3>
-        <Segment>
-          {
-            this.props.player.playing ?
-              <span>
-                <span>Beat {this.state.currentBeat}/{this.props.chords.meter.split("/")[1]}</span>
-                &nbsp;|&nbsp;
-                <span>{this.state.currentChord}</span>
-                &nbsp;|&nbsp;
-                <span>{this.state.currentBeatSeconds}</span>
-              </span>
-            :
-              <span>Not playing</span>
-          }
-          <Dropdown placeholder='Select a visualizer'
-            style={{float: 'right'}}
-            options={visualizerNames.map((v) => ({text: v.match(/\/(.*).js/)[1], value: v}))}
-            onChange={(e,data) => { console.log(data); this.setState({visualizer: data.value}) }}
-          />
-        </Segment>
+        <Menu>
+          <Menu.Item header>
+            {
+              this.props.player.playing ?
+                <span>
+                  <span>Beat {this.state.currentBeat}/{this.props.chords.meter.split("/")[1]}</span>
+                  &nbsp;|&nbsp;
+                  <span>{this.state.currentChord}</span>
+                  &nbsp;|&nbsp;
+                  <span>{this.state.currentBeatSeconds}</span>
+                </span>
+              :
+                <span>Not playing</span>
+            }
+          </Menu.Item>
+          <Menu.Menu position='right'>
+            <Dropdown placeholder='Select a visualizer'
+              className='link item'
+              options={visualizerNames.map((v) => ({text: v.match(/\/(.*).js/)[1], value: v}))}
+              onChange={(e,data) => { console.log(e); this.setState({visualizer: e.value}) }}
+            />
+          </Menu.Menu>
+        </Menu>
         <canvas ref='_canvas' style={{width: '100%'}} width={300} height={300}/>
       </div>
     )
