@@ -4,11 +4,8 @@ const { connect } = require('react-redux');
 const { Dropdown } = require('semantic-ui-react');
 
 // const Visualizers = requireDir('../visualizers')
-const reqVisualizers = require.context('../visualizers')
+const reqVisualizers = require.context('../visualizers',false,/^.*\.js$/)
 const visualizerNames = reqVisualizers.keys()
-
-console.log('visualizerNames = ',visualizerNames)
-
 const VisualizerGraphics = reqVisualizers(visualizerNames[0])
 
 // const VisualizerGraphics = require('../visualizers/simple')
@@ -137,6 +134,12 @@ class Visualizer extends Component {
             :
               <span>Not playing</span>
           }
+          <Dropdown placeholder='Select Friend'
+            inline
+            selection
+            options={friendOptions}
+            onChange={(e,data) => { console.log(data); this.setState()}
+          />
         </p>
         <canvas ref='_canvas' style={{width: '100%'}} width={300} height={300}/>
       </div>
