@@ -89132,7 +89132,7 @@ class SimpleVisualizer {
     // draw a colored rectangle
     const rectWidth = this.canvasWidth / this.beatsPerMeasure
     const rectStartX = rectWidth * ( beatNumber - 1 )
-    this.ctx.fillStyle = color
+    this.ctx.fillStyle = "hsl(50,50%,50%)"
     this.ctx.fillRect(rectStartX,0,rectWidth,this.canvasHeight)
     
     console.log(color)
@@ -89159,7 +89159,7 @@ class SimpleVisualizer {
     const majMinPart = chord.split(":")[1]
     
     const hue = CHROMATIC_SCALE[tonicPart] / 12 * 360
-    return `hsl(${hue},${majMinPart == "maj" ? '85%' : '45%'},100%`
+    return `hsl(${hue},${majMinPart == "maj" ? '85%' : '45%'},100%)`
   }
 }
 

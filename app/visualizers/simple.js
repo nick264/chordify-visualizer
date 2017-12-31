@@ -57,7 +57,7 @@ class SimpleVisualizer {
     const majMinPart = chord.split(":")[1]
     
     const hue = CHROMATIC_SCALE[tonicPart] / 12 * 360
-    return `hsl(${hue},${majMinPart == "maj" ? '85%' : '45%'},100%`
+    return `hsl(${hue},${majMinPart == "maj" ? '85%' : '45%'},50%)`
   }
 }
 
