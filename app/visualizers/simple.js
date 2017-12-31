@@ -33,6 +33,8 @@ class SimpleVisualizer {
     this.ctx.fillStyle = color
     this.ctx.fillRect(rectStartX,0,rectWidth,this.canvasHeight)
     
+    console.log(color)
+    
     // print the chord name
     this.ctx.font = "15px Arial";
     this.ctx.fillStyle = "white";
