@@ -138,6 +138,9 @@ class Fireworks {
   
   loop() {
     console.log('running fireworks loop')
+    var cancelAnimationFrame = window.cancelAnimationFrame || window.mozCancelAnimationFrame;
+    cancelAnimationFrame(this.requestAnimFrame.bind(window))
+
     // this function will run endlessly with requestAnimationFrame
     this.requestAnimFrame.call( window, this.loop.bind(this) );
 
