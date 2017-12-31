@@ -32,17 +32,9 @@ class SimpleVisualizer {
     const rectStartX = rectWidth * ( beatNumber - 1 )
     this.ctx.fillStyle = color
     this.ctx.fillRect(rectStartX,0,rectWidth,this.canvasHeight)
-    
-    console.log(color)
-    
-    // print the chord name
-    this.ctx.font = "15px Arial";
-    this.ctx.fillStyle = "white";
-    this.ctx.textAlign = "center";
-    this.ctx.fillText(chord, rectStartX + 0.5 * rectWidth, this.canvasHeight / 2); 
   }
   
-  // maps a chord name to hue and saturation
+  // maps a chord name to a color
   // chords are of the following format: {tonic}:{majMin}, e.g. Ab:maj, C:min
   chordColorMapping(chord) {
     // if no chord, return a darkish color
