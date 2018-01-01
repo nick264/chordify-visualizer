@@ -136,13 +136,17 @@ class Fireworks {
     )
   }
   
+  stop() {
+    this.stopped = true
+  }
+  
   loop() {
     console.log('running fireworks loop')
-    var cancelAnimationFrame = window.cancelAnimationFrame || window.mozCancelAnimationFrame;
-    cancelAnimationFrame(this.requestAnimFrame.bind(window))
 
     // this function will run endlessly with requestAnimationFrame
-    this.requestAnimFrame.call( window, this.loop.bind(this) );
+    if(!this.stopped) {
+      this.requestAnimFrame.call( window, this.loop.bind(this) );
+    }
 
     // increase the hue to get different colored fireworks over time
     //hue += 0.5;
