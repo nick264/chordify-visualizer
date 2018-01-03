@@ -30,7 +30,6 @@ class SimpleVisualizer {
   clearCanvas() {
     this.ctx.fillStyle="black";
     this.ctx.fillRect(0,0,this.canvasWidth,this.canvasHeight);
-
   }
   
   // this gets called on each beat. the Visualizer.jsx component passes the beat number and the chord to this method
