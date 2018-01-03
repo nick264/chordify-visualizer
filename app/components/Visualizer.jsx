@@ -30,7 +30,7 @@ class Visualizer extends Component {
     const VisualizerClass = reqVisualizers(this.state.visualizerName)
     this.visualizer = new VisualizerClass(this.refs._canvas,this.props.chords,this.chordArray)
     
-    setTimeout(this.visualizer.stop(),4000)
+    setTimeout(() => this.visualizer.stop(),4000)
   }
   
   // parse the string representing the chord timing of the song
