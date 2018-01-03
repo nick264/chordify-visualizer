@@ -11,9 +11,9 @@ class SimpleVisualizer {
             };
     })();
     
-    var cancelAnimationFrame = window.cancelAnimationFrame || window.mozCancelAnimationFrame;
+//     var cancelAnimationFrame = window.cancelAnimationFrame || window.mozCancelAnimationFrame;
     
-    cancelAnimationFrame(requestAnimFrame)
+//     cancelAnimationFrame(requestAnimFrame)
     
     // set up some instance variables so that our class's other methods can access them
     this.canvas = canvas
