@@ -92,7 +92,6 @@ class Fireworks {
     // starting hue
     this.hue = 120
     
-    this.ctx.save()
     this.cw = canvas.width
     this.ch = canvas.height
     
