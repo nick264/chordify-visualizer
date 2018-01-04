@@ -136,10 +136,6 @@ class Fireworks {
     )
   }
   
-  stop() {
-    this.stopped = true
-  }
-  
   loop() {
     console.log('running fireworks loop')
 
@@ -188,6 +184,10 @@ class Fireworks {
     for( var i = 0; i < explosions; i += 1) {      
       this.createParticlesRandom(chord)
     }
+  }
+  
+  onStop() {
+    this.stopped = true
   }
 }
 
