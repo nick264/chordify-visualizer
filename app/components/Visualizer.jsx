@@ -31,8 +31,7 @@ class Visualizer extends Component {
       this.visualizer.onStop()
     }
     
-    this.refs._canvas.getContext( '2d' ).ctx.clearRect(0,0,);
-    this.refs._canvas.getContext( '2d' ).save()
+    this.refs._canvas.getContext( '2d' ).clearRect(0,0,this.refs._canvas.width,this.refs._canvas.height)
     
     const VisualizerClass = reqVisualizers(this.state.visualizerName)
     this.visualizer = new VisualizerClass(this.refs._canvas,this.props.chords,this.chordArray)
