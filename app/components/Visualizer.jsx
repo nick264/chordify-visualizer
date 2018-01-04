@@ -88,6 +88,7 @@ class Visualizer extends Component {
     // initialize the new visualizer if necessary
     if(prevState.visualizerName != this.state.visualizerName) {
       console.log('visualizer changed to', this.state.visualizerName)
+      this.visualizer.stop()
       this._initVisualizer()
     }
     
