@@ -27,7 +27,9 @@ class Visualizer extends Component {
   
   // create an instance of the visualizer (whose class is this.state.visualizerName)
   _initVisualizer() {
-    
+    if(this.visualizer) {
+      this.visualizer.stop()
+    }
     
     const VisualizerClass = reqVisualizers(this.state.visualizerName)
     this.visualizer = new VisualizerClass(this.refs._canvas,this.props.chords,this.chordArray)
