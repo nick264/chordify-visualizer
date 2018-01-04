@@ -27,8 +27,8 @@ class Visualizer extends Component {
   
   // create an instance of the visualizer (whose class is this.state.visualizerName)
   _initVisualizer() {
-    if(this.visualizer && typeof(this.visualizer.stop) === 'function') {
-      this.visualizer.stop()
+    if(this.visualizer && typeof(this.visualizer.onStop) === 'function') {
+      this.visualizer.onStop()
     }
     
     const VisualizerClass = reqVisualizers(this.state.visualizerName)
