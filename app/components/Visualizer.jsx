@@ -27,6 +27,8 @@ class Visualizer extends Component {
   
   // create an instance of the visualizer (whose class is this.state.visualizerName)
   _initVisualizer() {
+    
+    
     const VisualizerClass = reqVisualizers(this.state.visualizerName)
     this.visualizer = new VisualizerClass(this.refs._canvas,this.props.chords,this.chordArray)
     
@@ -88,7 +90,6 @@ class Visualizer extends Component {
     // initialize the new visualizer if necessary
     if(prevState.visualizerName != this.state.visualizerName) {
       console.log('visualizer changed to', this.state.visualizerName)
-      this.visualizer.stop()
       this._initVisualizer()
     }
     
