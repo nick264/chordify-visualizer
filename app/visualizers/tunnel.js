@@ -217,7 +217,9 @@ class Tunnel {
   }
 
   loop() {
-    this.requestAnimFrame.call( window, this.loop.bind(this) );
+    if(!this.stopped) {
+      this.requestAnimFrame.call( window, this.loop.bind(this) );
+    }
 
     var tempProgress = this.progress.z;
     var p1 = this.curve.getPointAt(tempProgress);
@@ -234,6 +236,10 @@ class Tunnel {
   
   onBeat() {
     return null
+  }
+  
+  onStop() {
+    this.stopped = true
   }
 }
 
