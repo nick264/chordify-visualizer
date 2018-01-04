@@ -27,7 +27,7 @@ class Visualizer extends Component {
   
   // create an instance of the visualizer (whose class is this.state.visualizerName)
   _initVisualizer() {
-    if(this.visualizer) {
+    if(this.visualizer && typeof(this.visualizer.stop) === 'function') {
       this.visualizer.stop()
     }
     
