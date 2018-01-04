@@ -163,78 +163,78 @@ class Tunnel {
         vertex.y = p.y + this.opts.radius * 1.2 * normal.y;
         vertex.z = p.z + this.opts.radius * 1.2 * normal.z;
         geom2.colors.push(new THREE.Color("hsl(" + noiseIndex + ",80%,50%)"));
-//         geom2.vertices.push(vertex);
-//         var vertex = p.clone();
-//         vertex.x = p.x + this.opts.radius * 1.5 * normal.x;
-//         vertex.y = p.y + this.opts.radius * 1.5 * normal.y;
-//         vertex.z = p.z + this.opts.radius * 1.5 * normal.z;
-//         geom3.colors.push(new THREE.Color("hsl(" + noiseIndex + ",80%,50%)"));
-//         geom3.vertices.push(vertex);
-//       }
-//     }
-//     var mat = new THREE.PointsMaterial({
-//       color: 0xffffff,
-//       map: this.dotMap,
-//       size: 0.1,
-//       transparent: true,
-//       vertexColors: THREE.VertexColors,
-//       sizeAttenuation: true
-//     });
-//     var dots = new THREE.Points(geom, mat.clone());
-//     this.particles.add(dots);
-//     mat.transparent = true;
-//     mat.opacity = 0.5;
-//     var dots = new THREE.Points(geom2, mat.clone());
-//     this.particles.add(dots);
-//     mat.opacity = 0.3;
-//     var dots = new THREE.Points(geom3, mat.clone());
-//     this.particles.add(dots);
+        geom2.vertices.push(vertex);
+        var vertex = p.clone();
+        vertex.x = p.x + this.opts.radius * 1.5 * normal.x;
+        vertex.y = p.y + this.opts.radius * 1.5 * normal.y;
+        vertex.z = p.z + this.opts.radius * 1.5 * normal.z;
+        geom3.colors.push(new THREE.Color("hsl(" + noiseIndex + ",80%,50%)"));
+        geom3.vertices.push(vertex);
+      }
+    }
+    var mat = new THREE.PointsMaterial({
+      color: 0xffffff,
+      map: this.dotMap,
+      size: 0.1,
+      transparent: true,
+      vertexColors: THREE.VertexColors,
+      sizeAttenuation: true
+    });
+    var dots = new THREE.Points(geom, mat.clone());
+    this.particles.add(dots);
+    mat.transparent = true;
+    mat.opacity = 0.5;
+    var dots = new THREE.Points(geom2, mat.clone());
+    this.particles.add(dots);
+    mat.opacity = 0.3;
+    var dots = new THREE.Points(geom3, mat.clone());
+    this.particles.add(dots);
 
-//     geom3.computeBoundingSphere();
-//     var radius = geom3.boundingSphere.radius;
-//     var center = geom3.boundingSphere.center;
+    geom3.computeBoundingSphere();
+    var radius = geom3.boundingSphere.radius;
+    var center = geom3.boundingSphere.center;
 
-//     var geom = new THREE.Geometry();
-//     for (var i = 0; i < 4000; i++) {
-//       var vertex = new THREE.Vector3();
-//       vertex.x = (Math.random() - 0.5) * radius * 2;
-//       vertex.y = (Math.random() - 0.5) * radius * 2;
-//       vertex.z = (Math.random() - 0.5) * radius * 2;
-//       geom.colors.push(new THREE.Color("hsl(" + Math.floor(Math.random() * 80 + 150) + ",80%,50%)"));
-//       geom.vertices.push(vertex);
-//     }
-//     geom.translate(center.x, center.y, center.z);
-//     var mat = new THREE.PointsMaterial({
-//       size: 0.3,
-//       map: this.dotMap,
-//       vertexColors: THREE.VertexColors,
-//       sizeAttenuation: true,
-//       transparent: true,
-//       opacity: 0.7
-//     });
-//     var stars = new THREE.Points(geom, mat);
-//     this.particles.add(stars);
-//   }
+    var geom = new THREE.Geometry();
+    for (var i = 0; i < 4000; i++) {
+      var vertex = new THREE.Vector3();
+      vertex.x = (Math.random() - 0.5) * radius * 2;
+      vertex.y = (Math.random() - 0.5) * radius * 2;
+      vertex.z = (Math.random() - 0.5) * radius * 2;
+      geom.colors.push(new THREE.Color("hsl(" + Math.floor(Math.random() * 80 + 150) + ",80%,50%)"));
+      geom.vertices.push(vertex);
+    }
+    geom.translate(center.x, center.y, center.z);
+    var mat = new THREE.PointsMaterial({
+      size: 0.3,
+      map: this.dotMap,
+      vertexColors: THREE.VertexColors,
+      sizeAttenuation: true,
+      transparent: true,
+      opacity: 0.7
+    });
+    var stars = new THREE.Points(geom, mat);
+    this.particles.add(stars);
+  }
 
-//   loop() {
-//     this.requestAnimFrame.call( window, this.loop.bind(this) );
+  loop() {
+    this.requestAnimFrame.call( window, this.loop.bind(this) );
 
-//     var tempProgress = this.progress.z;
-//     var p1 = this.curve.getPointAt(tempProgress);
-//     if (tempProgress + this.interval > 1) {
-//       tempProgress = tempProgress - 1;
-//     }
-//     var p2 = this.curve.getPointAt(tempProgress + this.interval);
-//     this.camera.position.set(p1.x, p1.y, p1.z);
-//     this.camera.lookAt(p2);
-//     this.cube.position.set(p1.x, p1.y, p1.z);
+    var tempProgress = this.progress.z;
+    var p1 = this.curve.getPointAt(tempProgress);
+    if (tempProgress + this.interval > 1) {
+      tempProgress = tempProgress - 1;
+    }
+    var p2 = this.curve.getPointAt(tempProgress + this.interval);
+    this.camera.position.set(p1.x, p1.y, p1.z);
+    this.camera.lookAt(p2);
+    this.cube.position.set(p1.x, p1.y, p1.z);
 
-//     this.renderer.render(this.scene, this.camera);
-//   }
+    this.renderer.render(this.scene, this.camera);
+  }
   
-//   onBeat() {
-//     return null
-//   }
-// }
+  onBeat() {
+    return null
+  }
+}
 
-// module.exports = Tunnel
+module.exports = Tunnel
